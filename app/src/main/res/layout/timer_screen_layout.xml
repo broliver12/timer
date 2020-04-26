@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TimerScreenFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/timer_screen_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@drawable/ic_action_back_white"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:layout_constraintBottom_toTopOf="@id/container_linear_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/container_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timer_screen_toolbar">
+
+        <TextView
+            android:id="@+id/clock_display_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="00:00:00"
+            android:textSize="60dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/pause_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="||" />
+
+            <Button
+                android:id="@+id/play_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="play" />
+
+            <Button
+                android:id="@+id/stop_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="square" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/repetitions_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/repetitions_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/repetitions_title_text" />
+
+            <!--            <NumberPicker-->
+            <!--                android:layout_width=""-->
+            <!--                android:layout_height=""/>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rest_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rest_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/rest_title_text" />
+
+            <!--            <NumberPicker-->
+            <!--                android:layout_width=""-->
+            <!--                android:layout_height=""/>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/duration_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/duration_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/duration_title_text" />
+
+            <!--            <NumberPicker-->
+            <!--                android:layout_width=""-->
+            <!--                android:layout_height=""/>-->
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textview_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/button_second"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:background="@color/colorPrimaryDark"
+        android:foreground="@drawable/ic_action_back_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+</androidx.constraintlayout.widget.ConstraintLayout>
