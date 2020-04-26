@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,7 +42,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupToolbar();
 
         timerRecyclerView = view.findViewById(R.id.timerRecyclerview);
         timerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -48,15 +51,27 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                navigateToCreateNewTimerFragment();
             }
         });
     }
 
     @Override
+    public void navigateToCreateNewTimerFragment() {
+        NavHostFragment.findNavController(HomeScreenFragment.this)
+                .navigate(R.id.action_home_to_create);
+    }
+
+    @Override
     public void navigateToSelectedTimerFragment() {
         NavHostFragment.findNavController(HomeScreenFragment.this)
-                .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                .navigate(R.id.action_home_to_timer);
+    }
+
+    private void setupToolbar(){
+
+        final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
     }
 }

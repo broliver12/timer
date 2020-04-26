@@ -3,26 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/HomeScreenFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/HomeScreenFragment"
         android:name="com.example.workouttimer.HomeScreenFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/home_screen_fragment_label"
         tools:layout="@layout/home_screen_layout">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_home_to_timer"
+            app:destination="@id/TimerScreenFragment" />
+        <action
+            android:id="@+id/action_home_to_create"
+            app:destination="@id/CreateNewTimerFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/CreateNewTimerFragment"
+        android:name="com.example.workouttimer.CreateNewTimerFragment"
+        android:label="@string/create_new_timer_fragment_label"
+        tools:layout="@layout/create_new_timer_screen_layout">
+\
+    </fragment>
+
+    <fragment
+        android:id="@+id/TimerScreenFragment"
         android:name="com.example.workouttimer.TimerScreenFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/timer_screen_fragment_label"
         tools:layout="@layout/timer_screen_layout">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_timer_to_home"
+            app:destination="@id/HomeScreenFragment" />
     </fragment>
 </navigation>
