@@ -1,10 +1,10 @@
-package com.example.workouttimer;
+package com.example.workouttimer.viewmodel;
 
-import android.view.View;
+import com.example.workouttimer.model.Timer;
 
 import java.util.ArrayList;
 
-public class ViewModel implements HomeScreenViewModelInterface, CreateNewTimerViewModelInterface{
+public class ViewModel implements HomeScreenViewModelInterface, CreateNewTimerViewModelInterface {
 
     private ArrayList<Timer> timerList;
     private Timer currentlySelectedTimer;

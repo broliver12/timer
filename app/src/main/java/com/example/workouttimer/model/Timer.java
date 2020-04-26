@@ -1,4 +1,6 @@
-package com.example.workouttimer;
+package com.example.workouttimer.model;
+
+import com.example.workouttimer.model.Section;
 
 import java.util.ArrayList;
 

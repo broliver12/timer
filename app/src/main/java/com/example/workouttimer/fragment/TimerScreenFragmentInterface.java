@@ -1,4 +1,4 @@
-package com.example.workouttimer;
+package com.example.workouttimer.fragment;
 
 public interface TimerScreenFragmentInterface {
 

@@ -1,4 +1,4 @@
-package com.example.workouttimer;
+package com.example.workouttimer.model;
 
 public class Section {
 

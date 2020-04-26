@@ -1,4 +1,4 @@
-package com.example.workouttimer;
+package com.example.workouttimer.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.workouttimer.fragment.HomeScreenFragmentInterface;
+import com.example.workouttimer.R;
+import com.example.workouttimer.model.Timer;
 
 import java.util.ArrayList;
 

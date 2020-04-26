@@ -1,4 +1,4 @@
-package com.example.workouttimer;
+package com.example.workouttimer.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,19 +8,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workouttimer.R;
+import com.example.workouttimer.adapter.TimerRecyclerViewAdapter;
+import com.example.workouttimer.viewmodel.HomeScreenViewmodel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeScreenFragment extends Fragment implements HomeScreenFragmentInterface{
+public class HomeScreenFragment extends Fragment implements HomeScreenFragmentInterface {
 
     private RecyclerView timerRecyclerView;
     private HomeScreenViewmodel viewmodel;

@@ -1,8 +1,8 @@
-package com.example.workouttimer;
+package com.example.workouttimer.viewmodel;
 
-import java.sql.Time;
+import com.example.workouttimer.model.Timer;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeScreenViewmodel {
 

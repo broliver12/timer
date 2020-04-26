@@ -1,4 +1,4 @@
-package com.example.workouttimer;
+package com.example.workouttimer.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
+import com.example.workouttimer.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

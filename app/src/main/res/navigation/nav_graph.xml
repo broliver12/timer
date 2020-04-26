@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/HomeScreenFragment"
-        android:name="com.example.workouttimer.HomeScreenFragment"
+        android:name="com.example.workouttimer.fragment.HomeScreenFragment"
         android:label="@string/home_screen_fragment_label"
         tools:layout="@layout/home_screen_layout">
 
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/CreateNewTimerFragment"
-        android:name="com.example.workouttimer.CreateNewTimerFragment"
+        android:name="com.example.workouttimer.fragment.CreateNewTimerFragment"
         android:label="@string/create_new_timer_fragment_label"
         tools:layout="@layout/create_new_timer_screen_layout">
 \
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/TimerScreenFragment"
-        android:name="com.example.workouttimer.TimerScreenFragment"
+        android:name="com.example.workouttimer.fragment.TimerScreenFragment"
         android:label="@string/timer_screen_fragment_label"
         tools:layout="@layout/timer_screen_layout">
 
