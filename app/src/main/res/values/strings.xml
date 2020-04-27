@@ -14,6 +14,7 @@
     <string name="confirm_discard_text">Yes</string>
     <string name="deny_discard_text">No</string>
     <string name="discard_message">Are you sure you want to discard?</string>
+    <string name="enter_timer_title_text">Choose a name for your timer:</string>
 
 
 </resources>

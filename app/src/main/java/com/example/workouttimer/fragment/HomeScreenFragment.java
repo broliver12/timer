@@ -44,7 +44,8 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
 
         timerRecyclerView = view.findViewById(R.id.timerRecyclerview);
         timerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        timerRecyclerView.setAdapter(new TimerRecyclerViewAdapter(getContext(), viewModel.getTimerList(), this));
+        TimerRecyclerViewAdapter adapter = new TimerRecyclerViewAdapter(getContext(), viewModel.getTimerList(), this);
+        timerRecyclerView.setAdapter(adapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +53,11 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
                 navigateToCreateNewTimerFragment();
             }
         });
+    }
+
+    @Override
+    public boolean removeListItem(String title){
+        return viewModel.removeTimerFromList(title);
     }
 
     @Override

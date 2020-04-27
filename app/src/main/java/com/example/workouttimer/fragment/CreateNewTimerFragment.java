@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.workouttimer.R;
 import com.example.workouttimer.activity.MainActivity;
+import com.example.workouttimer.model.Timer;
 import com.example.workouttimer.viewmodel.CreateNewTimerViewModelInterface;
 
 import butterknife.BindView;
@@ -26,6 +28,8 @@ public class CreateNewTimerFragment extends Fragment {
 
     @BindView(R.id.add_section_button)
     Button addSectionButton;
+    @BindView(R.id.title_edit_text)
+    EditText titleEditText;
 
     private CreateNewTimerViewModelInterface viewModel;
 
@@ -42,6 +46,11 @@ public class CreateNewTimerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbarSetup();
+
+        addSectionButton.setOnClickListener(v -> {
+            Timer t = new Timer(titleEditText.getText().toString());
+            viewModel.addTimerToList(t);
+        });
     }
 
     private void toolbarSetup(){
@@ -68,6 +77,7 @@ public class CreateNewTimerFragment extends Fragment {
             v.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     getActivity().onBackPressed();
                 }
             });

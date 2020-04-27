@@ -49,6 +49,11 @@ public class TimerRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 fragmentInterface.navigateToSelectedTimerFragment();
             }
         });
+
+        ((Item)holder).deleteButton.setOnClickListener(v -> {
+                boolean success = fragmentInterface.removeListItem(((Item) holder).titleTextView.getText().toString());
+                if (success) {notifyDataSetChanged();}
+        });
     }
 
     public class Item extends RecyclerView.ViewHolder {
@@ -64,6 +69,11 @@ public class TimerRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             this.deleteButton = itemView.findViewById(R.id.tile_delete_button);
         }
 
+    }
+
+    public void updateList(ArrayList<Timer> newList){
+        items = newList;
+        notifyDataSetChanged();
     }
 
     @Override

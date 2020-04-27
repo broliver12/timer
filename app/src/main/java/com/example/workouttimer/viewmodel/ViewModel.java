@@ -38,7 +38,7 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         return true;
     }
 
-    public boolean selectTimerFromList(String title){
+    public boolean removeTimerFromList(String title){
         for (Timer t : timerList){
             if(t.getTitle().equals(title)){
                 timerList.remove(t);
@@ -48,7 +48,7 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         return false;
     }
 
-    public boolean removeTimerFromList(String title){
+    public boolean selectTimerFromList(String title){
         for (Timer t : timerList){
             if(t.getTitle().equals(title)){
                 currentlySelectedTimer = t;
