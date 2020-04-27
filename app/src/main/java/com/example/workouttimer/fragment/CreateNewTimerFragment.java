@@ -15,6 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.workouttimer.R;
+import com.example.workouttimer.activity.MainActivity;
+import com.example.workouttimer.viewmodel.CreateNewTimerViewModelInterface;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,12 +27,14 @@ public class CreateNewTimerFragment extends Fragment {
     @BindView(R.id.add_section_button)
     Button addSectionButton;
 
+    private CreateNewTimerViewModelInterface viewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        this.viewModel = ((MainActivity) getActivity()).getViewModel();
         View v = inflater.inflate(R.layout.create_new_timer_screen_layout, container, false);
         ButterKnife.bind(this, v);
-
         return v;
     }
 

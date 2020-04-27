@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.workouttimer.R;
+import com.example.workouttimer.activity.MainActivity;
+import com.example.workouttimer.viewmodel.TimerScreenViewModelInterface;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,17 +26,13 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     @BindView(R.id.clock_display_text_view)
     TextView clockDisplayTextView;
 
+    private TimerScreenViewModelInterface viewModel;
+
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.viewModel = ((MainActivity) getActivity()).getViewModel();
         View v = inflater.inflate(R.layout.timer_screen_layout, container, false);
         ButterKnife.bind(this, v);
-
-
-
         return v;
     }
 
@@ -48,6 +46,7 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         NavHostFragment.findNavController(TimerScreenFragment.this)
                 .navigate(R.id.action_timer_to_home);
     }
+
 
     private void toolbarSetup(){
 
@@ -77,7 +76,5 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
                 }
             });
         }
-
-
     }
 }

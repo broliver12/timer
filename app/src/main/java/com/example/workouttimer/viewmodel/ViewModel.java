@@ -4,13 +4,27 @@ import com.example.workouttimer.model.Timer;
 
 import java.util.ArrayList;
 
-public class ViewModel implements HomeScreenViewModelInterface, CreateNewTimerViewModelInterface {
+public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewModelInterface, CreateNewTimerViewModelInterface {
 
     private ArrayList<Timer> timerList;
     private Timer currentlySelectedTimer;
+    private int status;
 
     public ViewModel(){
 
+        timerList = new ArrayList<>();
+
+        timerList.add(new Timer("hello"));
+        timerList.add(new Timer("helloeee"));
+        timerList.add(new Timer("hellorfff"));
+        timerList.add(new Timer("helldsdsdso"));
+
+        status = 14;
+
+    }
+
+    public ArrayList<Timer> getTimerList(){
+        return this.timerList;
     }
 
     public boolean addTimerToList(Timer timer){
@@ -42,5 +56,9 @@ public class ViewModel implements HomeScreenViewModelInterface, CreateNewTimerVi
             }
         }
         return false;
+    }
+
+    public int getStatus(){
+        return status;
     }
 }

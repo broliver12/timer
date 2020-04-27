@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workouttimer.R;
+import com.example.workouttimer.activity.MainActivity;
 import com.example.workouttimer.adapter.TimerRecyclerViewAdapter;
-import com.example.workouttimer.viewmodel.HomeScreenViewmodel;
+import com.example.workouttimer.viewmodel.HomeScreenViewModelInterface;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
@@ -23,20 +24,16 @@ import butterknife.ButterKnife;
 
 public class HomeScreenFragment extends Fragment implements HomeScreenFragmentInterface {
 
-    private RecyclerView timerRecyclerView;
-    private HomeScreenViewmodel viewmodel;
-
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
+    private RecyclerView timerRecyclerView;
+    private HomeScreenViewModelInterface viewModel;
+
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.viewModel = ((MainActivity) getActivity()).getViewModel();
         View v = inflater.inflate(R.layout.home_screen_layout, container, false);
-        viewmodel = new HomeScreenViewmodel();
         ButterKnife.bind(this, v);
         return v;
     }
@@ -47,7 +44,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
 
         timerRecyclerView = view.findViewById(R.id.timerRecyclerview);
         timerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        timerRecyclerView.setAdapter(new TimerRecyclerViewAdapter(getContext(), viewmodel.getTimerList(), this));
+        timerRecyclerView.setAdapter(new TimerRecyclerViewAdapter(getContext(), viewModel.getTimerList(), this));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
