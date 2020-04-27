@@ -2,14 +2,19 @@ package com.example.workouttimer.viewmodel;
 
 import com.example.workouttimer.model.Section;
 import com.example.workouttimer.model.Timer;
+import com.example.workouttimer.model.TimerClock;
 
 import java.sql.Time;
+import java.time.Clock;
 import java.util.ArrayList;
+
+import io.reactivex.rxjava3.core.Observable;
 
 public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewModelInterface, CreateNewTimerViewModelInterface {
 
     private ArrayList<Timer> timerList;
     private Timer currentlySelectedTimer;
+    private TimerClock clock;
     private int status;
 
     private int repetitions;
@@ -22,9 +27,15 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
 
         Timer x = new Timer("test");
         x.setDuration(20);
-        x.setSections(new ArrayList<>());
+        ArrayList<Section> l = new ArrayList<>();
+        l.add(new Section("rest"));
+        l.add(new Section("work"));
+        l.add(new Section("rest"));
+        x.setSections(l);
         timerList.add(x);
         status = 14;
+
+        this.clock = new TimerClock();
 
     }
 
@@ -57,6 +68,7 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         for (Timer t : timerList){
             if(t.getTitle().equals(title)){
                 currentlySelectedTimer = t;
+                clock.loadTimer(t);
                 return true;
             }
         }
@@ -98,5 +110,36 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
 
         String  str = hrStr + ":" + minStr + ":" + secStr;
         return str;
+    }
+
+    public void onPlayButtonPressed(){
+        this.clock.start();
+    }
+    public void onPauseButtonPressed(){
+        this.clock.pause();
+    };
+    public void onStopButtonPressed(){
+        this.clock.stop();
+    };
+
+    public Observable<String> getClockStringObservable(){
+        return clock.getTimeObservable().map(timeInMillis -> {
+            int hundredth = ( timeInMillis.intValue() / 10) % 100;
+            int sec = (timeInMillis.intValue() / 1000) % 60;
+            int min = (timeInMillis.intValue() / 60000) % 60;
+            int hr = (timeInMillis.intValue() / 3600000);
+
+            String hunStr = hundredth < 10 ? "0" + hundredth : Integer.toString(hundredth);
+            String secStr = sec < 10 ? "0" + sec : Integer.toString(sec);
+            String minStr = min < 10 ? "0" + min : Integer.toString(min);
+            String hrStr = hr < 10 ? "0" + hr : Integer.toString(hr);
+            String  str = hrStr + ":" + minStr + ":" + secStr + "." + hunStr;
+
+            if(hr == 0){
+                str = minStr + ":" + secStr + "." + hunStr;
+            }
+
+            return str;
+        });
     }
 }

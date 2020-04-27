@@ -5,6 +5,7 @@ public class Section {
     private String type;
     private String title = "";
     private int duration;
+    private long endTimeStamp;
     private int id;
 
     public Section(String type){
@@ -42,4 +43,8 @@ public class Section {
     public void setId(int id) {
         this.id = id;
     }
+
+    public long getEndTimeStamp(){ return endTimeStamp;}
+
+    public void setEndTimeStamp(long timeStamp){this.endTimeStamp = timeStamp;}
 }

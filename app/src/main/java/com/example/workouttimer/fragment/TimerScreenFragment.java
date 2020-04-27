@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -23,6 +24,9 @@ import com.example.workouttimer.viewmodel.TimerScreenViewModelInterface;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Scheduler;
 
 public class TimerScreenFragment extends Fragment implements TimerScreenFragmentInterface {
 
@@ -36,9 +40,17 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     NumberPicker repetitionsNumberPicker;
     @BindView(R.id.quantity_number_picker)
     NumberPicker quantityNumberPicker;
+    @BindView(R.id.play_button)
+    Button playButton;
+    @BindView(R.id.pause_button)
+    Button pauseButton;
+    @BindView(R.id.stop_button)
+    Button stopButton;
 
     private Timer timer;
     private TimerScreenViewModelInterface viewModel;
+
+    private Observable<String> clockObs;
 
     private final int MAX_REPETITIONS = 99;
     private final int MIN_REPETITIONS = 1;
@@ -60,6 +72,22 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         timer = viewModel.loadSelectedTimer();
+        clockObs = viewModel.getClockStringObservable();
+
+        clockObs.observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(x -> clockDisplayTextView.setText(x))
+                .subscribe();
+
+        playButton.setOnClickListener(v -> {
+            viewModel.onPlayButtonPressed();
+        });
+        pauseButton.setOnClickListener(v -> {
+            viewModel.onPauseButtonPressed();
+        });
+        stopButton.setOnClickListener(v -> {
+            viewModel.onStopButtonPressed();
+            clockDisplayTextView.setText("00:00.00");
+        });
         toolbarSetup(timer.getTitle());
         durationValueTextView.setText(viewModel.getTotalDuration());
         repetitionsNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
@@ -82,7 +110,6 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         NavHostFragment.findNavController(TimerScreenFragment.this)
                 .navigate(R.id.action_timer_to_home);
     }
-
 
     private void toolbarSetup(String title){
 
