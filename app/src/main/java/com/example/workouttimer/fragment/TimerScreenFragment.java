@@ -39,6 +39,8 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbarSetup();
+
+
     }
 
     @Override
@@ -50,31 +52,19 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
 
     private void toolbarSetup(){
 
-        // get the ToolBar from Main Activity
         final Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        // get the ActionBar from Main Activity
         final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        // inflate the customized Action Bar View
-        LayoutInflater inflater = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.timer_screen_toolbar, null);
 
         if (actionBar != null) {
-            // enable the customized view and disable title
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
 
             actionBar.setCustomView(v);
-            // remove Burger Icon
             toolbar.setNavigationIcon(null);
 
-            // add click listener to the back arrow icon
-            v.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().onBackPressed();
-                }
-            });
+            v.findViewById(R.id.back).setOnClickListener(v_ -> getActivity().onBackPressed());
         }
     }
 }

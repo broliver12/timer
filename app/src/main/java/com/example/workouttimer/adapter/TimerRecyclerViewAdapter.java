@@ -18,10 +18,9 @@ import java.util.ArrayList;
 
 public class TimerRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-    Context context;
-    ArrayList<Timer> items;
-    HomeScreenFragmentInterface fragmentInterface;
+    private Context context;
+    private ArrayList<Timer> items;
+    private HomeScreenFragmentInterface fragmentInterface;
 
     public TimerRecyclerViewAdapter(Context context, ArrayList<Timer> items, HomeScreenFragmentInterface fragmentInterface) {
         this.context = context;
@@ -42,17 +41,17 @@ public class TimerRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        ((Item)holder).titleTextView.setText(items.get(position).getTitle());
-        ((Item)holder).selectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ((Item) holder).titleTextView.setText(items.get(position).getTitle());
+        ((Item) holder).selectButton.setOnClickListener(v -> {
+            if (fragmentInterface.onSelectClicked(items.get(position).getTitle())) {
                 fragmentInterface.navigateToSelectedTimerFragment();
             }
         });
 
-        ((Item)holder).deleteButton.setOnClickListener(v -> {
-                boolean success = fragmentInterface.removeListItem(((Item) holder).titleTextView.getText().toString());
-                if (success) {notifyDataSetChanged();}
+        ((Item) holder).deleteButton.setOnClickListener(v -> {
+            if (fragmentInterface.onDeleteClicked(((Item) holder).titleTextView.getText().toString())) {
+                notifyDataSetChanged();
+            }
         });
     }
 
@@ -62,7 +61,7 @@ public class TimerRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         Button deleteButton;
         Button selectButton;
 
-        public Item(View itemView){
+        public Item(View itemView) {
             super(itemView);
             this.titleTextView = itemView.findViewById(R.id.timerRcvRowTitleTextView);
             this.selectButton = itemView.findViewById(R.id.tile_select_button);
@@ -71,7 +70,7 @@ public class TimerRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     }
 
-    public void updateList(ArrayList<Timer> newList){
+    public void updateList(ArrayList<Timer> newList) {
         items = newList;
         notifyDataSetChanged();
     }

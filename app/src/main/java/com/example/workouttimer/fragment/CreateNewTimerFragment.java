@@ -17,14 +17,16 @@ import androidx.fragment.app.Fragment;
 
 import com.example.workouttimer.R;
 import com.example.workouttimer.activity.MainActivity;
+import com.example.workouttimer.model.Section;
 import com.example.workouttimer.model.Timer;
 import com.example.workouttimer.viewmodel.CreateNewTimerViewModelInterface;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CreateNewTimerFragment extends Fragment {
-
 
     @BindView(R.id.add_section_button)
     Button addSectionButton;
@@ -49,38 +51,32 @@ public class CreateNewTimerFragment extends Fragment {
 
         addSectionButton.setOnClickListener(v -> {
             Timer t = new Timer(titleEditText.getText().toString());
+            t.setDuration(400);
+            ArrayList<Section> secs = new ArrayList<>();
+            secs.add(new Section("Rest"));
+            secs.add(new Section("Work"));
+            secs.add(new Section("Rest"));
+
+            t.setSections(secs);
             viewModel.addTimerToList(t);
         });
     }
 
     private void toolbarSetup(){
 
-        // get the ToolBar from Main Activity
         final Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        // get the ActionBar from Main Activity
         final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        // inflate the customized Action Bar View
-        LayoutInflater inflater = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.timer_screen_toolbar, null);
 
         if (actionBar != null) {
-            // enable the customized view and disable title
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
 
             actionBar.setCustomView(v);
-            // remove Burger Icon
             toolbar.setNavigationIcon(null);
 
-            // add click listener to the back arrow icon
-            v.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    getActivity().onBackPressed();
-                }
-            });
+            v.findViewById(R.id.back).setOnClickListener(v_ -> getActivity().onBackPressed());
         }
 
 

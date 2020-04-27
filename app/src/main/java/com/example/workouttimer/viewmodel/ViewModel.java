@@ -13,12 +13,6 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
     public ViewModel(){
 
         timerList = new ArrayList<>();
-
-        timerList.add(new Timer("hello"));
-        timerList.add(new Timer("helloeee"));
-        timerList.add(new Timer("hellorfff"));
-        timerList.add(new Timer("helldsdsdso"));
-
         status = 14;
 
     }

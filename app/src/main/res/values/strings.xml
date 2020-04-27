@@ -10,6 +10,7 @@
     <string name="duration_title_text">Duration</string>
     <string name="repetitions_title_text">Repetitions</string>
     <string name="rest_title_text">Add Rest (Between Rounds)</string>
+    <string name="quantity_title_text">Quantity (In seconds)</string>
     <string name="add_section_text">Add Section</string>
     <string name="confirm_discard_text">Yes</string>
     <string name="deny_discard_text">No</string>

@@ -4,6 +4,7 @@ public interface HomeScreenFragmentInterface {
 
     void navigateToSelectedTimerFragment();
     void navigateToCreateNewTimerFragment();
-    boolean removeListItem(String title);
+    boolean onDeleteClicked(String title);
+    boolean onSelectClicked(String title);
 
 }

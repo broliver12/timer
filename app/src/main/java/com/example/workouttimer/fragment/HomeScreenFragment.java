@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,34 +48,46 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
         TimerRecyclerViewAdapter adapter = new TimerRecyclerViewAdapter(getContext(), viewModel.getTimerList(), this);
         timerRecyclerView.setAdapter(adapter);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToCreateNewTimerFragment();
-            }
-        });
+        fab.setOnClickListener(v -> navigateToCreateNewTimerFragment());
     }
 
     @Override
-    public boolean removeListItem(String title){
+    public boolean onDeleteClicked(String title) {
         return viewModel.removeTimerFromList(title);
     }
 
     @Override
+    public boolean onSelectClicked(String title) {
+        viewModel.selectTimerFromList(title);
+        navigateToSelectedTimerFragment();
+        return true;
+    }
+
+    @Override
     public void navigateToCreateNewTimerFragment() {
-        NavHostFragment.findNavController(HomeScreenFragment.this)
-                .navigate(R.id.action_home_to_create);
+
+        NavController ctr = NavHostFragment.findNavController(HomeScreenFragment.this);
+
+        if (ctr.getCurrentDestination().getId() == R.id.HomeScreenFragment) {
+            NavHostFragment.findNavController(HomeScreenFragment.this)
+                    .navigate(R.id.action_home_to_create);
+        }
     }
 
     @Override
     public void navigateToSelectedTimerFragment() {
-        NavHostFragment.findNavController(HomeScreenFragment.this)
-                .navigate(R.id.action_home_to_timer);
+
+        NavController ctr = NavHostFragment.findNavController(HomeScreenFragment.this);
+
+        if (ctr.getCurrentDestination().getId() == R.id.HomeScreenFragment) {
+            NavHostFragment.findNavController(HomeScreenFragment.this)
+                    .navigate(R.id.action_home_to_timer);
+        }
     }
 
-    private void setupToolbar(){
+    private void setupToolbar() {
 
-        final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);
     }
