@@ -29,13 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|center_horizontal"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:visibility="invisible"/>
 
             <Button
                 android:id="@+id/pause_button"
@@ -70,50 +66,31 @@
                 android:layout_weight="6"
                 android:text="square" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:visibility="invisible"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/duration_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/duration_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="20"
+                android:layout_weight="5"
+                android:layout_gravity="center_vertical"
                 android:text="@string/duration_title_text" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/duration_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="00:00:00"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
 
         </LinearLayout>
 
@@ -121,30 +98,25 @@
             android:id="@+id/repetitions_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/repetitions_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="20"
+                android:layout_weight="7"
+                android:layout_gravity="center_vertical"
                 android:text="@string/repetitions_title_text" />
 
             <NumberPicker
+                android:id="@+id/repetitions_number_picker"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="60dp"
                 android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:scaleY=".7"/>
 
         </LinearLayout>
 
@@ -152,37 +124,24 @@
             android:id="@+id/rest_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/rest_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="19"
+                android:layout_weight="5"
+                android:layout_gravity="center_vertical"
                 android:text="@string/rest_title_text" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
 
             <CheckBox
                 android:id="@+id/rest_between_rounds_check_box"
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
+                android:layout_weight="1"
                 android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:visibility="invisible"/>
 
         </LinearLayout>
 
@@ -190,36 +149,25 @@
             android:id="@+id/quantity_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/quantity_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="19"
+                android:layout_weight="5"
+                android:layout_gravity="center_vertical"
                 android:text="@string/quantity_title_text" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
-
             <NumberPicker
+                android:id="@+id/quantity_number_picker"
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="60dp"
                 android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:scaleY=".7"/>
 
         </LinearLayout>
 
