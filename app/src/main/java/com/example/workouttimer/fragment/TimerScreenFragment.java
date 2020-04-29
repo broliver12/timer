@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -47,10 +49,16 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     @BindView(R.id.stop_button)
     Button stopButton;
 
+    @BindView(R.id.timer_modifiers_linear_layout)
+    LinearLayout timeModifiersLinearLayout;
+    @BindView(R.id.quantity_linear_layout)
+    LinearLayout quantityLinearLayout;
+
     private Timer timer;
     private TimerScreenViewModelInterface viewModel;
 
     private Observable<String> clockObs;
+    private Observable<Integer> stateObs;
 
     private final int MAX_REPETITIONS = 99;
     private final int MIN_REPETITIONS = 1;
@@ -73,10 +81,14 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         super.onViewCreated(view, savedInstanceState);
         timer = viewModel.loadSelectedTimer();
         clockObs = viewModel.getClockStringObservable();
+        stateObs = viewModel.getStateChangeObservable();
 
         clockObs.observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(x -> clockDisplayTextView.setText(x))
                 .subscribe();
+        stateObs.observeOn(AndroidSchedulers.mainThread())
+        .doOnNext(x -> updateView(x))
+        .subscribe();
 
         playButton.setOnClickListener(v -> {
             viewModel.onPlayButtonPressed();
@@ -86,7 +98,6 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         });
         stopButton.setOnClickListener(v -> {
             viewModel.onStopButtonPressed();
-            clockDisplayTextView.setText("00:00.00");
         });
         toolbarSetup(timer.getTitle());
         durationValueTextView.setText(viewModel.getTotalDuration());
@@ -94,12 +105,23 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
             if(oldVal != newVal){
                 viewModel.onRepetitionsChanged(newVal);
                 durationValueTextView.setText(viewModel.getTotalDuration());
+                viewModel.onTotalDurationChanged(restCheckBox.isChecked(), quantityNumberPicker.getValue(), newVal);
             }
+        });
+        quantityLinearLayout.setVisibility(View.INVISIBLE);
+        restCheckBox.setOnCheckedChangeListener( (v, isChecked) -> {
+            if(isChecked){
+                quantityLinearLayout.setVisibility(View.VISIBLE);
+            } else {
+                quantityLinearLayout.setVisibility(View.INVISIBLE);
+            }
+            viewModel.onTotalDurationChanged(isChecked, quantityNumberPicker.getValue(), repetitionsNumberPicker.getValue());
         });
         quantityNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
             if(oldVal != newVal){
                 viewModel.onQuantityChanged(newVal);
                 durationValueTextView.setText(viewModel.getTotalDuration());
+                viewModel.onTotalDurationChanged(restCheckBox.isChecked(), newVal, repetitionsNumberPicker.getValue());
             }
         });
 
@@ -127,6 +149,33 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
 
             v.findViewById(R.id.back).setOnClickListener(v_ -> getActivity().onBackPressed());
             ((TextView) v.findViewById(R.id.toolbar_title_text_view)).setText(title);
+        }
+    }
+
+    private void updateView(int state){
+        switch (state){
+            case 0:
+                clockDisplayTextView.setText("00:00.00");
+                timeModifiersLinearLayout.setVisibility(View.VISIBLE);
+                break;
+
+            case 1:
+                timeModifiersLinearLayout.setVisibility(View.INVISIBLE);
+                break;
+
+            case 2:
+                timeModifiersLinearLayout.setVisibility(View.INVISIBLE);
+                break;
+
+            case 3:
+                timeModifiersLinearLayout.setVisibility(View.VISIBLE);
+                break;
+
+            case 4:
+                timeModifiersLinearLayout.setVisibility(View.VISIBLE);
+                break;
+
+            default:
         }
     }
 }

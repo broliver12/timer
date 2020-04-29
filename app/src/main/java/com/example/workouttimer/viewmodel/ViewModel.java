@@ -121,6 +121,10 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
     public void onStopButtonPressed(){
         this.clock.stop();
     };
+    public Observable<Integer> getStateChangeObservable(){return this.clock.getStateObservable();}
+    public void onTotalDurationChanged(boolean hasRest, int restDuration, int repetitions){
+        this.clock.updateTotalDuration(hasRest, restDuration, repetitions);
+    }
 
     public Observable<String> getClockStringObservable(){
         return clock.getTimeObservable().map(timeInMillis -> {

@@ -22,5 +22,8 @@ public interface TimerScreenViewModelInterface {
 
     void onStopButtonPressed();
 
+    void onTotalDurationChanged(boolean hasRest, int restDuration, int repetitions);
+
     Observable<String> getClockStringObservable();
+    Observable<Integer> getStateChangeObservable();
 }

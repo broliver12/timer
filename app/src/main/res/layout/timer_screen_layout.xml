@@ -28,9 +28,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal">
 
             <Button
@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/play_button"
@@ -57,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/stop_button"
@@ -69,105 +69,113 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/duration_linear_layout"
+            android:id="@+id/timer_modifiers_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/duration_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/duration_linear_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:layout_gravity="center_vertical"
-                android:text="@string/duration_title_text" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/duration_value"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/duration_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:text="@string/duration_title_text" />
+
+                <TextView
+                    android:id="@+id/duration_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="00:00:00" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/repetitions_linear_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="00:00:00"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/repetitions_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="7"
+                    android:text="@string/repetitions_title_text" />
 
-        <LinearLayout
-            android:id="@+id/repetitions_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:orientation="horizontal">
+                <NumberPicker
+                    android:id="@+id/repetitions_number_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:scaleY=".7" />
 
-            <TextView
-                android:id="@+id/repetitions_text"
-                android:layout_width="wrap_content"
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rest_linear_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:layout_gravity="center_vertical"
-                android:text="@string/repetitions_title_text" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
 
-            <NumberPicker
-                android:id="@+id/repetitions_number_picker"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:scaleY=".7"/>
+                <TextView
+                    android:id="@+id/rest_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:text="@string/rest_title_text" />
 
-        </LinearLayout>
+                <CheckBox
+                    android:id="@+id/rest_between_rounds_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1" />
 
-        <LinearLayout
-            android:id="@+id/rest_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:orientation="horizontal">
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/rest_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/quantity_linear_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:layout_gravity="center_vertical"
-                android:text="@string/rest_title_text" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/rest_between_rounds_check_box"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/quantity_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:text="@string/quantity_title_text" />
 
-        </LinearLayout>
+                <NumberPicker
+                    android:id="@+id/quantity_number_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:scaleY=".7" />
 
-        <LinearLayout
-            android:id="@+id/quantity_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/quantity_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:layout_gravity="center_vertical"
-                android:text="@string/quantity_title_text" />
-
-            <NumberPicker
-                android:id="@+id/quantity_number_picker"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:scaleY=".7"/>
+            </LinearLayout>
 
         </LinearLayout>
 
