@@ -17,7 +17,7 @@ public class Timer {
     public Timer(String title){
         this.title = title;
         this.duration = 0;
-        this.repetitions = 0;
+        this.repetitions = 1;
         this.restDuration = 0;
         this.hasRest = false;
         this.sections = new ArrayList<>();
@@ -27,7 +27,7 @@ public class Timer {
     public Timer(String title, ArrayList<Section> sections){
         this.title = title;
         this.duration = 0;
-        this.repetitions = 0;
+        this.repetitions = 1;
         this.restDuration = 0;
         this.hasRest = false;
         this.sections = sections;

@@ -21,12 +21,12 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
     private int restDuration;
     private int totalDuration;
 
-    public ViewModel(){
+    public ViewModel() {
 
         timerList = new ArrayList<>();
 
         Timer x = new Timer("test");
-        x.setDuration(20);
+        x.setDuration(5);
         ArrayList<Section> l = new ArrayList<>();
         l.add(new Section("rest"));
         l.add(new Section("work"));
@@ -39,13 +39,13 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
 
     }
 
-    public ArrayList<Timer> getTimerList(){
+    public ArrayList<Timer> getTimerList() {
         return this.timerList;
     }
 
-    public boolean addTimerToList(Timer timer){
-        for (Timer t : timerList){
-            if(t.getTitle().equals(timer.getTitle())){
+    public boolean addTimerToList(Timer timer) {
+        for (Timer t : timerList) {
+            if (t.getTitle().equals(timer.getTitle())) {
                 return false;
             }
         }
@@ -54,9 +54,9 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         return true;
     }
 
-    public boolean removeTimerFromList(String title){
-        for (Timer t : timerList){
-            if(t.getTitle().equals(title)){
+    public boolean removeTimerFromList(String title) {
+        for (Timer t : timerList) {
+            if (t.getTitle().equals(title)) {
                 timerList.remove(t);
                 return true;
             }
@@ -64,9 +64,9 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         return false;
     }
 
-    public boolean selectTimerFromList(String title){
-        for (Timer t : timerList){
-            if(t.getTitle().equals(title)){
+    public boolean selectTimerFromList(String title) {
+        for (Timer t : timerList) {
+            if (t.getTitle().equals(title)) {
                 currentlySelectedTimer = t;
                 clock.loadTimer(t);
                 return true;
@@ -75,7 +75,7 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         return false;
     }
 
-    public int getStatus(){
+    public int getStatus() {
         return status;
     }
 
@@ -83,23 +83,24 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         repetitions = 1;
         restDuration = 0;
         totalDuration = calculateTotalDurationInSeconds();
-        return currentlySelectedTimer;}
+        return currentlySelectedTimer;
+    }
 
-    private int calculateTotalDurationInSeconds(){
+    private int calculateTotalDurationInSeconds() {
         return repetitions * (currentlySelectedTimer.getDuration() + restDuration) - restDuration;
     }
 
-    public void onQuantityChanged(int newVal){
+    public void onQuantityChanged(int newVal) {
         restDuration = newVal;
         totalDuration = calculateTotalDurationInSeconds();
     }
 
-    public void onRepetitionsChanged(int newVal){
+    public void onRepetitionsChanged(int newVal) {
         repetitions = newVal;
         totalDuration = calculateTotalDurationInSeconds();
     }
 
-    public String getTotalDuration(){
+    public String getTotalDurationString() {
         int sec = totalDuration % 60;
         int min = (totalDuration / 60) % 60;
         int hr = (totalDuration / 3600);
@@ -108,42 +109,58 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         String minStr = min < 10 ? "0" + min : Integer.toString(min);
         String hrStr = hr < 10 ? "0" + hr : Integer.toString(hr);
 
-        String  str = hrStr + ":" + minStr + ":" + secStr;
+        String str = hrStr + ":" + minStr + ":" + secStr;
         return str;
     }
 
-    public void onPlayButtonPressed(){
+    public void onPlayButtonPressed() {
         this.clock.start();
     }
-    public void onPauseButtonPressed(){
+
+    public void onPauseButtonPressed() {
         this.clock.pause();
-    };
-    public void onStopButtonPressed(){
+    }
+
+    public void onStopButtonPressed() {
         this.clock.stop();
-    };
-    public Observable<Integer> getStateChangeObservable(){return this.clock.getStateObservable();}
-    public void onTotalDurationChanged(boolean hasRest, int restDuration, int repetitions){
+    }
+
+    public void onResetButtonPressed() {
+        this.clock.reset();
+    }
+
+    public Observable<Integer> getStateChangeObservable() {
+        return this.clock.getStateObservable();
+    }
+
+    public void onTotalDurationChanged(boolean hasRest, int restDuration, int repetitions) {
         this.clock.updateTotalDuration(hasRest, restDuration, repetitions);
     }
 
-    public Observable<String> getClockStringObservable(){
-        return clock.getTimeObservable().map(timeInMillis -> {
-            int hundredth = ( timeInMillis.intValue() / 10) % 100;
-            int sec = (timeInMillis.intValue() / 1000) % 60;
-            int min = (timeInMillis.intValue() / 60000) % 60;
-            int hr = (timeInMillis.intValue() / 3600000);
+    public Observable<String> getClockStringObservable() {
+        return clock.getTimeObservable().map(timeInMillis -> getFormattedClockString(timeInMillis));
+    }
 
-            String hunStr = hundredth < 10 ? "0" + hundredth : Integer.toString(hundredth);
-            String secStr = sec < 10 ? "0" + sec : Integer.toString(sec);
-            String minStr = min < 10 ? "0" + min : Integer.toString(min);
-            String hrStr = hr < 10 ? "0" + hr : Integer.toString(hr);
-            String  str = hrStr + ":" + minStr + ":" + secStr + "." + hunStr;
+    public String getFinishedClockString(){
+        return this.getFormattedClockString(Long.valueOf(calculateTotalDurationInSeconds()) * 1000);
+    }
 
-            if(hr == 0){
-                str = minStr + ":" + secStr + "." + hunStr;
-            }
+    private String getFormattedClockString(Long timeInMillis){
+        int hundredth = (timeInMillis.intValue() / 10) % 100;
+        int sec = (timeInMillis.intValue() / 1000) % 60;
+        int min = (timeInMillis.intValue() / 60000) % 60;
+        int hr = (timeInMillis.intValue() / 3600000);
 
-            return str;
-        });
+        String hunStr = hundredth < 10 ? "0" + hundredth : Integer.toString(hundredth);
+        String secStr = sec < 10 ? "0" + sec : Integer.toString(sec);
+        String minStr = min < 10 ? "0" + min : Integer.toString(min);
+        String hrStr = hr < 10 ? "0" + hr : Integer.toString(hr);
+        String str = hrStr + ":" + minStr + ":" + secStr + "." + hunStr;
+
+        if (hr == 0) {
+            str = minStr + ":" + secStr + "." + hunStr;
+        }
+
+        return str;
     }
 }

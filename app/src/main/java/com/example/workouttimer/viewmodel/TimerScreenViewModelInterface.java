@@ -14,13 +14,17 @@ public interface TimerScreenViewModelInterface {
 
     void onQuantityChanged(int newVal);
 
-    String getTotalDuration();
+    String getTotalDurationString();
+
+    String getFinishedClockString();
 
     void onPlayButtonPressed();
 
     void onPauseButtonPressed();
 
     void onStopButtonPressed();
+
+    void onResetButtonPressed();
 
     void onTotalDurationChanged(boolean hasRest, int restDuration, int repetitions);
 

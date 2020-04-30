@@ -2,18 +2,25 @@
     <string name="app_name">workouttimer</string>
     <string name="appTitle">Workout Timer</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-
     <string name="home_screen_fragment_label">Home Screen</string>
     <string name="timer_screen_fragment_label">Timer Screen</string>
     <string name="create_new_timer_fragment_label">Create New Timer Screen</string>
+    <!-- Strings used for fragments for navigation -->
+
     <string name="duration_title_text">Duration</string>
     <string name="repetitions_title_text">Repetitions</string>
     <string name="rest_title_text">Add Rest (Between Rounds)</string>
     <string name="quantity_title_text">Quantity (In seconds)</string>
+    <string name="finished_message">Finished</string>
+    <string name="paused_message">Paused</string>
+    <string name="reset_button_text">Click To Reset</string>
+
+
+
     <string name="add_section_text">Add Section</string>
     <string name="confirm_discard_text">Yes</string>
     <string name="deny_discard_text">No</string>
+
     <string name="discard_message">Are you sure you want to discard?</string>
     <string name="enter_timer_title_text">Choose a name for your timer:</string>
 

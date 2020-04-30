@@ -124,9 +124,14 @@ public class TimerClock {
     }
 
     private void finish() {
+
         if (stateChange(4)) {
-            resetClockValues();
+//            resetClockValues();
         }
+    }
+
+    public void reset() {
+        resetClockValues();
     }
 
     private Section findCurrentSection() {

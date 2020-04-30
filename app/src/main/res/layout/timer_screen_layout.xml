@@ -33,12 +33,15 @@
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/pause_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="||" />
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/ic_action_pause_white"
+                android:scaleType="centerInside"
+                />
 
             <View
                 android:layout_width="0dp"
@@ -46,12 +49,15 @@
                 android:layout_weight="1"
                 android:visibility="invisible" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/play_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="play" />
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/ic_action_play_white"
+                android:scaleType="centerInside"
+                />
 
             <View
                 android:layout_width="0dp"
@@ -59,12 +65,37 @@
                 android:layout_weight="1"
                 android:visibility="invisible" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/stop_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="square" />
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/ic_action_stop_white"
+                android:scaleType="centerInside"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/status_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="30dp" />
+
+        <LinearLayout
+            android:id="@+id/finished_state_linear_layout"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reset_button_text"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:id="@+id/reset_button"/>
 
         </LinearLayout>
 

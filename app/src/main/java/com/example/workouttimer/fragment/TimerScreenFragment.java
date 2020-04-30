@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class TimerScreenFragment extends Fragment implements TimerScreenFragmentInterface {
 
@@ -48,14 +49,21 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     Button pauseButton;
     @BindView(R.id.stop_button)
     Button stopButton;
-
+    @BindView(R.id.status_text_view)
+    TextView statusTextView;
+    @BindView(R.id.finished_state_linear_layout)
+    LinearLayout finishedLinearLayout;
     @BindView(R.id.timer_modifiers_linear_layout)
     LinearLayout timeModifiersLinearLayout;
     @BindView(R.id.quantity_linear_layout)
     LinearLayout quantityLinearLayout;
+    @BindView(R.id.reset_button)
+    Button resetButton;
 
     private Timer timer;
     private TimerScreenViewModelInterface viewModel;
+
+    private Disposable d;
 
     private Observable<String> clockObs;
     private Observable<Integer> stateObs;
@@ -83,12 +91,11 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         clockObs = viewModel.getClockStringObservable();
         stateObs = viewModel.getStateChangeObservable();
 
-        clockObs.observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(x -> clockDisplayTextView.setText(x))
-                .subscribe();
         stateObs.observeOn(AndroidSchedulers.mainThread())
         .doOnNext(x -> updateView(x))
         .subscribe();
+
+        toolbarSetup(timer.getTitle());
 
         playButton.setOnClickListener(v -> {
             viewModel.onPlayButtonPressed();
@@ -99,16 +106,25 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         stopButton.setOnClickListener(v -> {
             viewModel.onStopButtonPressed();
         });
-        toolbarSetup(timer.getTitle());
-        durationValueTextView.setText(viewModel.getTotalDuration());
+
+        resetButton.setOnClickListener(v -> {
+            viewModel.onResetButtonPressed();
+        });
+
+        updateView(0);
+
+        durationValueTextView.setText(viewModel.getTotalDurationString());
+
         repetitionsNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
             if(oldVal != newVal){
                 viewModel.onRepetitionsChanged(newVal);
-                durationValueTextView.setText(viewModel.getTotalDuration());
+                durationValueTextView.setText(viewModel.getTotalDurationString());
                 viewModel.onTotalDurationChanged(restCheckBox.isChecked(), quantityNumberPicker.getValue(), newVal);
             }
         });
+
         quantityLinearLayout.setVisibility(View.INVISIBLE);
+
         restCheckBox.setOnCheckedChangeListener( (v, isChecked) -> {
             if(isChecked){
                 quantityLinearLayout.setVisibility(View.VISIBLE);
@@ -117,10 +133,11 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
             }
             viewModel.onTotalDurationChanged(isChecked, quantityNumberPicker.getValue(), repetitionsNumberPicker.getValue());
         });
+
         quantityNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
             if(oldVal != newVal){
                 viewModel.onQuantityChanged(newVal);
-                durationValueTextView.setText(viewModel.getTotalDuration());
+                durationValueTextView.setText(viewModel.getTotalDurationString());
                 viewModel.onTotalDurationChanged(restCheckBox.isChecked(), newVal, repetitionsNumberPicker.getValue());
             }
         });
@@ -156,23 +173,43 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         switch (state){
             case 0:
                 clockDisplayTextView.setText("00:00.00");
+                statusTextView.setVisibility(View.GONE);
+                finishedLinearLayout.setVisibility(View.GONE);
                 timeModifiersLinearLayout.setVisibility(View.VISIBLE);
                 break;
 
             case 1:
-                timeModifiersLinearLayout.setVisibility(View.INVISIBLE);
+                d = clockObs.observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(x -> clockDisplayTextView.setText(x))
+                        .subscribe();
+
+                statusTextView.setVisibility(View.GONE);
+                finishedLinearLayout.setVisibility(View.GONE);
+                timeModifiersLinearLayout.setVisibility(View.GONE);
                 break;
 
             case 2:
-                timeModifiersLinearLayout.setVisibility(View.INVISIBLE);
+                d.dispose();
+                statusTextView.setText("PAUSED");
+                statusTextView.setVisibility(View.VISIBLE);
+                finishedLinearLayout.setVisibility(View.GONE);
+                timeModifiersLinearLayout.setVisibility(View.GONE);
                 break;
 
             case 3:
-                timeModifiersLinearLayout.setVisibility(View.VISIBLE);
+                d.dispose();
+                statusTextView.setVisibility(View.INVISIBLE);
+                finishedLinearLayout.setVisibility(View.GONE);
+                timeModifiersLinearLayout.setVisibility(View.GONE);
                 break;
 
             case 4:
-                timeModifiersLinearLayout.setVisibility(View.VISIBLE);
+                d.dispose();
+                clockDisplayTextView.setText(viewModel.getFinishedClockString());
+                timeModifiersLinearLayout.setVisibility(View.GONE);
+                statusTextView.setText("FINISHED");
+                statusTextView.setVisibility(View.VISIBLE);
+                finishedLinearLayout.setVisibility(View.VISIBLE);
                 break;
 
             default:
