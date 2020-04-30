@@ -3,7 +3,6 @@ package com.example.workouttimer.activity;
 import android.os.Bundle;
 
 import com.example.workouttimer.R;
-import com.example.workouttimer.fragment.TimerScreenFragmentInterface;
 import com.example.workouttimer.viewmodel.CreateNewTimerViewModelInterface;
 import com.example.workouttimer.viewmodel.HomeScreenViewModelInterface;
 import com.example.workouttimer.viewmodel.TimerScreenViewModel;
@@ -25,9 +24,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
 
