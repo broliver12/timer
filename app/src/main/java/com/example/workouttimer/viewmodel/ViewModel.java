@@ -163,4 +163,8 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
 
         return str;
     }
+
+    public String getTimerTitle(){
+        return this.currentlySelectedTimer.getTitle();
+    }
 }

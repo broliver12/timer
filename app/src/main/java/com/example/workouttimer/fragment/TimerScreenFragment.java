@@ -60,7 +60,6 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     @BindView(R.id.reset_button)
     Button resetButton;
 
-    private Timer timer;
     private TimerScreenViewModelInterface viewModel;
 
     private Disposable d;
@@ -87,15 +86,15 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        timer = viewModel.loadSelectedTimer();
+        viewModel.loadSelectedTimer();
         clockObs = viewModel.getClockStringObservable();
         stateObs = viewModel.getStateChangeObservable();
 
         stateObs.observeOn(AndroidSchedulers.mainThread())
-        .doOnNext(x -> updateView(x))
-        .subscribe();
+                .doOnNext(x -> updateView(x))
+                .subscribe();
 
-        toolbarSetup(timer.getTitle());
+        toolbarSetup();
 
         playButton.setOnClickListener(v -> {
             viewModel.onPlayButtonPressed();
@@ -116,7 +115,7 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         durationValueTextView.setText(viewModel.getTotalDurationString());
 
         repetitionsNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            if(oldVal != newVal){
+            if (oldVal != newVal) {
                 viewModel.onRepetitionsChanged(newVal);
                 durationValueTextView.setText(viewModel.getTotalDurationString());
                 viewModel.onTotalDurationChanged(restCheckBox.isChecked(), quantityNumberPicker.getValue(), newVal);
@@ -125,8 +124,8 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
 
         quantityLinearLayout.setVisibility(View.INVISIBLE);
 
-        restCheckBox.setOnCheckedChangeListener( (v, isChecked) -> {
-            if(isChecked){
+        restCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
+            if (isChecked) {
                 quantityLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 quantityLinearLayout.setVisibility(View.INVISIBLE);
@@ -135,7 +134,7 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
         });
 
         quantityNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            if(oldVal != newVal){
+            if (oldVal != newVal) {
                 viewModel.onQuantityChanged(newVal);
                 durationValueTextView.setText(viewModel.getTotalDurationString());
                 viewModel.onTotalDurationChanged(restCheckBox.isChecked(), newVal, repetitionsNumberPicker.getValue());
@@ -150,10 +149,10 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
                 .navigate(R.id.action_timer_to_home);
     }
 
-    private void toolbarSetup(String title){
+    private void toolbarSetup() {
 
         final Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.timer_screen_toolbar, null);
 
@@ -165,12 +164,12 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
             toolbar.setNavigationIcon(null);
 
             v.findViewById(R.id.back).setOnClickListener(v_ -> getActivity().onBackPressed());
-            ((TextView) v.findViewById(R.id.toolbar_title_text_view)).setText(title);
+            ((TextView) v.findViewById(R.id.toolbar_title_text_view)).setText(viewModel.getTimerTitle());
         }
     }
 
-    private void updateView(int state){
-        switch (state){
+    private void updateView(int state) {
+        switch (state) {
             case 0:
                 clockDisplayTextView.setText("00:00.00");
                 statusTextView.setVisibility(View.GONE);

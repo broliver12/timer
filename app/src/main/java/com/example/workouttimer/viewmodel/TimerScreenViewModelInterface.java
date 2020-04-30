@@ -18,6 +18,8 @@ public interface TimerScreenViewModelInterface {
 
     String getFinishedClockString();
 
+    String getTimerTitle();
+
     void onPlayButtonPressed();
 
     void onPauseButtonPressed();
