@@ -2,22 +2,18 @@ package com.example.workouttimer.viewmodel;
 
 import com.example.workouttimer.model.Section;
 import com.example.workouttimer.model.Timer;
-import com.example.workouttimer.model.TimerClock;
-
-import java.sql.Time;
-import java.time.Clock;
 import java.util.ArrayList;
 
-import io.reactivex.rxjava3.core.Observable;
-
-public class ViewModel implements HomeScreenViewModelInterface, CreateNewTimerViewModelInterface {
+public class ViewModel implements HomeScreenViewModelInterface {
 
     private ArrayList<Timer> timerList;
 
     private TimerScreenViewModel timerScreenViewModel;
+    private CreateNewTimerScreenViewModel createNewTimerScreenViewModel;
 
     public ViewModel() {
         timerScreenViewModel = new TimerScreenViewModel();
+        createNewTimerScreenViewModel = new CreateNewTimerScreenViewModel();
 
         timerList = new ArrayList<>();
 
@@ -34,6 +30,10 @@ public class ViewModel implements HomeScreenViewModelInterface, CreateNewTimerVi
 
     public TimerScreenViewModel getTimerScreenViewModel() {
         return timerScreenViewModel;
+    }
+
+    public CreateNewTimerScreenViewModel getCreateNewTimerScreenViewModel(){
+        return createNewTimerScreenViewModel;
     }
 
     public ArrayList<Timer> getTimerList() {

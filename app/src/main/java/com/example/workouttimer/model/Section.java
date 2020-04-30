@@ -3,7 +3,7 @@ package com.example.workouttimer.model;
 public class Section {
 
     private String type;
-    private String title = "";
+    private String label = "";
     private int duration;
     private long endTimeStamp;
     private int id;
@@ -12,12 +12,18 @@ public class Section {
         this.type=type;
     }
 
+    public Section(int duration, String label, String type){
+        this.duration = duration;
+        this.label = label;
+        this.type = type;
+    }
+
     public String getType() {
         return type;
     }
 
-    public String getTitle() {
-        return title;
+    public String getLabel() {
+        return label;
     }
 
     public int getDuration() {
@@ -32,8 +38,8 @@ public class Section {
         this.type = type;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String label) {
+        this.label = label;
     }
 
     public void setDuration(int duration) {

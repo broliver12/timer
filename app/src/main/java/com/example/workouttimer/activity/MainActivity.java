@@ -3,7 +3,7 @@ package com.example.workouttimer.activity;
 import android.os.Bundle;
 
 import com.example.workouttimer.R;
-import com.example.workouttimer.viewmodel.CreateNewTimerViewModelInterface;
+import com.example.workouttimer.viewmodel.CreateNewTimerScreenViewModel;
 import com.example.workouttimer.viewmodel.HomeScreenViewModelInterface;
 import com.example.workouttimer.viewmodel.TimerScreenViewModel;
 import com.example.workouttimer.viewmodel.TimerScreenViewModelInterface;
@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     public TimerScreenViewModel getTimerScreenViewModel(){
         return viewModel.getTimerScreenViewModel();
+    }
+
+    public CreateNewTimerScreenViewModel getCreateNewTimerScreenViewModel(){
+        return viewModel.getCreateNewTimerScreenViewModel();
     }
 
 //    @Override

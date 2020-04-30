@@ -49,6 +49,10 @@ public class Timer {
         this.duration = duration;
     }
 
+    public void addSection(Section s){this.sections.add(s);}
+
+    public void removeSection(int id){this.sections.remove(id);}
+
     public ArrayList<Section> getSections() {
         return sections;
     }

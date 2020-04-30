@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/CreateNewTimerFragment"
-        android:name="com.example.workouttimer.fragment.CreateNewTimerFragment"
+        android:name="com.example.workouttimer.fragment.CreateNewTimerScreenFragment"
         android:label="@string/create_new_timer_fragment_label"
         tools:layout="@layout/create_new_timer_screen_layout">
 \
