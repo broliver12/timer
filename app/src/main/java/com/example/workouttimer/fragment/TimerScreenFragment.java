@@ -32,7 +32,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public class TimerScreenFragment extends Fragment implements TimerScreenFragmentInterface {
+public class TimerScreenFragment extends Fragment {
 
     @BindView(R.id.clock_display_text_view)
     TextView clockDisplayTextView;
@@ -64,7 +64,6 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     private TimerScreenViewModelInterface viewModel;
 
     private Disposable d;
-
     private Observable<String> clockObs;
     private Observable<Integer> stateObs;
 
@@ -75,7 +74,7 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.viewModel = ((MainActivity) getActivity()).getViewModel();
+        this.viewModel = ((MainActivity) getActivity()).getTimerScreenViewModel();
         View v = inflater.inflate(R.layout.timer_screen_layout, container, false);
         ButterKnife.bind(this, v);
         repetitionsNumberPicker.setMaxValue(MAX_REPETITIONS);
@@ -87,7 +86,6 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.loadSelectedTimer();
         clockObs = viewModel.getClockStringObservable();
         stateObs = viewModel.getStateChangeObservable();
 
@@ -142,12 +140,6 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
             }
         });
 
-    }
-
-    @Override
-    public void navigateToHomeScreenFragment() {
-        NavHostFragment.findNavController(TimerScreenFragment.this)
-                .navigate(R.id.action_timer_to_home);
     }
 
     private void toolbarSetup() {

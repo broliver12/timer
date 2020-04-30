@@ -6,6 +6,7 @@ import com.example.workouttimer.R;
 import com.example.workouttimer.fragment.TimerScreenFragmentInterface;
 import com.example.workouttimer.viewmodel.CreateNewTimerViewModelInterface;
 import com.example.workouttimer.viewmodel.HomeScreenViewModelInterface;
+import com.example.workouttimer.viewmodel.TimerScreenViewModel;
 import com.example.workouttimer.viewmodel.TimerScreenViewModelInterface;
 import com.example.workouttimer.viewmodel.ViewModel;
 
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     public ViewModel getViewModel(){
         return viewModel;
+    }
+
+    public TimerScreenViewModel getTimerScreenViewModel(){
+        return viewModel.getTimerScreenViewModel();
     }
 
 //    @Override
