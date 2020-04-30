@@ -75,15 +75,10 @@ public class ViewModel implements HomeScreenViewModelInterface, TimerScreenViewM
         return false;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public Timer loadSelectedTimer() {
+    public void loadSelectedTimer() {
         repetitions = 1;
         restDuration = 0;
         totalDuration = calculateTotalDurationInSeconds();
-        return currentlySelectedTimer;
     }
 
     private int calculateTotalDurationInSeconds() {

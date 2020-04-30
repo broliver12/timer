@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -44,11 +45,11 @@ public class TimerScreenFragment extends Fragment implements TimerScreenFragment
     @BindView(R.id.quantity_number_picker)
     NumberPicker quantityNumberPicker;
     @BindView(R.id.play_button)
-    Button playButton;
+    ImageButton playButton;
     @BindView(R.id.pause_button)
-    Button pauseButton;
+    ImageButton pauseButton;
     @BindView(R.id.stop_button)
-    Button stopButton;
+    ImageButton stopButton;
     @BindView(R.id.status_text_view)
     TextView statusTextView;
     @BindView(R.id.finished_state_linear_layout)

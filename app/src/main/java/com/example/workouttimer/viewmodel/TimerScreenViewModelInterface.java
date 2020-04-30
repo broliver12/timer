@@ -6,9 +6,7 @@ import io.reactivex.rxjava3.core.Observable;
 
 public interface TimerScreenViewModelInterface {
 
-    int getStatus();
-
-    Timer loadSelectedTimer();
+    void loadSelectedTimer();
 
     void onRepetitionsChanged(int newVal);
 

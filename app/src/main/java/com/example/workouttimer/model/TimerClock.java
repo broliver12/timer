@@ -124,10 +124,7 @@ public class TimerClock {
     }
 
     private void finish() {
-
-        if (stateChange(4)) {
-//            resetClockValues();
-        }
+        stateChange(4);
     }
 
     public void reset() {
