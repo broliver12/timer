@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,11 +17,17 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workouttimer.R;
 import com.example.workouttimer.activity.MainActivity;
+import com.example.workouttimer.adapter.SectionRecyclerViewAdapter;
+import com.example.workouttimer.model.Section;
 import com.example.workouttimer.viewmodel.CreateNewTimerScreenViewModelInterface;
 
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,11 +53,15 @@ public class CreateNewTimerScreenFragment extends Fragment {
     Button confirmAddSectionButton;
     @BindView(R.id.cancel_add_section_button)
     Button cancelAddSectionButton;
+    @BindView(R.id.create_timer_section_recyclerview)
+    RecyclerView recyclerView;
 
 
     private CreateNewTimerScreenViewModelInterface viewModel;
     private static String[] typeOptionsArray = {"Work", "Rest"};
     private Observable<Integer> stateObs;
+
+    private SectionRecyclerViewAdapter adapter;
 
     @Nullable
     @Override
@@ -72,6 +83,10 @@ public class CreateNewTimerScreenFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         toolbarSetup();
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new SectionRecyclerViewAdapter(getContext(), new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+
         stateObs = viewModel.getStateObservable();
 
         stateObs.doOnNext(x -> updateView(x))
@@ -83,6 +98,7 @@ public class CreateNewTimerScreenFragment extends Fragment {
 
         confirmAddSectionButton.setOnClickListener(v -> {
             viewModel.onAddPressed(chooseDurationNumberPicker.getValue(), sectionLabelEditText.getText().toString(), typeOptionsArray[chooseSectionTypeNumberPicker.getValue()]);
+            adapter.addItem(chooseDurationNumberPicker.getValue(), sectionLabelEditText.getText().toString(), typeOptionsArray[chooseSectionTypeNumberPicker.getValue()]);
         });
 
         cancelAddSectionButton.setOnClickListener(v -> {
