@@ -1,12 +1,13 @@
 package com.example.workouttimer.activity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.workouttimer.R;
 import com.example.workouttimer.viewmodel.CreateNewTimerScreenViewModel;
-import com.example.workouttimer.viewmodel.HomeScreenViewModelInterface;
 import com.example.workouttimer.viewmodel.TimerScreenViewModel;
-import com.example.workouttimer.viewmodel.TimerScreenViewModelInterface;
 import com.example.workouttimer.viewmodel.ViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,30 @@ public class MainActivity extends AppCompatActivity {
     public CreateNewTimerScreenViewModel getCreateNewTimerScreenViewModel(){
         return viewModel.getCreateNewTimerScreenViewModel();
     }
+
+    public ViewModel getHomeScreenViewModel(){
+        return viewModel;
+    }
+
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public void forceShowSoftKeyboard(){
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    public void hideSoftKeyboard(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

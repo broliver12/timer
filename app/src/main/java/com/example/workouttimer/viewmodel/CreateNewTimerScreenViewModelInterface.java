@@ -7,10 +7,9 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public interface CreateNewTimerScreenViewModelInterface {
 
-    boolean addTimerToList(Timer timer);
     void onAddSectionPressed();
 
-    void onSavePressed();
+    void onSavePressed(String title);
     void onAddPressed(int duration, String label, String type);
     void onCancelPressed();
     void onDiscardPressed();

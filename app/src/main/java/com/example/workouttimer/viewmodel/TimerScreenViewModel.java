@@ -10,7 +10,6 @@ import io.reactivex.rxjava3.core.Observable;
 
 public class TimerScreenViewModel implements TimerScreenViewModelInterface {
 
-    private ArrayList<Timer> timerList;
     private Timer currentlySelectedTimer;
     private TimerClock clock;
     private int status;
@@ -20,17 +19,6 @@ public class TimerScreenViewModel implements TimerScreenViewModelInterface {
     private int totalDuration;
 
     public TimerScreenViewModel () {
-        this.timerList = new ArrayList<>();
-
-        Timer x = new Timer("test");
-        x.setDuration(5);
-        ArrayList<Section> l = new ArrayList<>();
-        l.add(new Section("rest"));
-        l.add(new Section("work"));
-        l.add(new Section("rest"));
-        x.setSections(l);
-        this.timerList.add(x);
-        this.status = 14;
 
         this.clock = new TimerClock();
     }
@@ -49,7 +37,7 @@ public class TimerScreenViewModel implements TimerScreenViewModelInterface {
 
     public void onQuantityChanged(int newVal) {
         this.restDuration = newVal;
-        this.totalDuration = calculateTotalDurationInSeconds();
+        this.totalDuration = this.calculateTotalDurationInSeconds();
     }
 
     public void onRepetitionsChanged(int newVal) {

@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 public class TimerClock {
     private Timer timer;
     private Section currentSection;
-
+    private int currentRepetition;
     //state
     //0 - unstarted
     //1 - running
@@ -23,6 +23,7 @@ public class TimerClock {
     private long currentElapsedTime;
     private long totalElapsedTime;
     private long mostRecentUpdate;
+    private long currentRepetitionStartTime;
 
     public TimerClock() {
         this.unloadTimer();
@@ -39,6 +40,7 @@ public class TimerClock {
             unloadTimer();
             this.timer = timer;
             this.currentSection = timer.getSections().get(0);
+            this.currentRepetition = 1;
         }
     }
 
@@ -48,12 +50,18 @@ public class TimerClock {
                 .doOnNext(x -> this.currentElapsedTime += System.currentTimeMillis() - this.mostRecentStartTime)
                 .map(x -> getAndUpdateTotalElapsedTime())
                 .doOnNext(x -> {
-                            if (x >= this.currentSection.getEndTimeStamp()) {
+                            if (x >= this.currentSection.getEndTimeStamp() + (this.timer.getDuration() * (this.currentRepetition-1) * 1000)) {
                                 //perform required sound action or whatever, publishsubject onnext??
                                 if (x >= this.timer.getTotalDuration() * 1000) {
-                                    this.finish();
+                                        this.finish();
                                 } else {
-                                    this.currentSection = this.timer.getSections().get(this.currentSection.getId() + 1);
+                                    if(this.currentSection.getId() == this.timer.getSections().size() - 1) {
+                                        this.currentRepetition ++;
+                                        this.currentSection = this.timer.getSections().get(0);
+                                    } else {
+                                        this.currentSection = this.timer.getSections().get(this.currentSection.getId() + 1);
+
+                                    }
                                 }
                             }
                         }
@@ -99,6 +107,7 @@ public class TimerClock {
             this.mostRecentUpdate = 0;
             this.currentElapsedTime = 0;
             this.totalElapsedTime = 0;
+            this.currentRepetitionStartTime = 0;
         }
     }
 

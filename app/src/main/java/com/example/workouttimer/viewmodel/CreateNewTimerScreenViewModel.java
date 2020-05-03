@@ -47,15 +47,25 @@ public class CreateNewTimerScreenViewModel implements CreateNewTimerScreenViewMo
         }
     }
 
-    public void onSavePressed() {
+    public void onSavePressed(String title) {
         if (this.inProgressTimer != null && this.inProgressTimer.getSections().size() > 0) {
+            this.inProgressTimer.setTitle(title);
+            int totalDurSeconds = 0;
+            for (int i=0; i<this.inProgressTimer.getSections().size(); i++){
+                this.inProgressTimer.getSections().get(i).setId(i);
+                totalDurSeconds += this.inProgressTimer.getSections().get(i).getDuration();
+                this.inProgressTimer.getSections().get(i).setEndTimeStamp(totalDurSeconds * 1000);
+            }
+            this.inProgressTimer.setDuration(totalDurSeconds);
+            //set the rest of the timer values here...
             completedTimerPublishSubject.onNext(this.inProgressTimer);
-            //leave the screen
+            this.inProgressTimer = null;
         }
     }
 
     public void onDiscardPressed() {
-        //leave and don't save
+
+        this.inProgressTimer = null;
     }
 
     public Observable<Timer> getTimerPublishSubject() {
@@ -64,11 +74,6 @@ public class CreateNewTimerScreenViewModel implements CreateNewTimerScreenViewMo
 
     public Observable<Integer> getStateObservable(){
         return stateObservable.map(x -> x);
-    }
-
-    @Override
-    public boolean addTimerToList(Timer timer) {
-        return false;
     }
 
     private boolean stateChange(int desiredState) {

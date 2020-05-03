@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.workouttimer.R;
 import com.example.workouttimer.activity.MainActivity;
 import com.example.workouttimer.adapter.TimerRecyclerViewAdapter;
+import com.example.workouttimer.model.Timer;
 import com.example.workouttimer.viewmodel.HomeScreenViewModelInterface;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class HomeScreenFragment extends Fragment implements HomeScreenFragmentInterface {
 
@@ -30,10 +33,11 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
 
     private RecyclerView timerRecyclerView;
     private HomeScreenViewModelInterface viewModel;
+    private Observable<Timer> newTimerObservable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.viewModel = ((MainActivity) getActivity()).getViewModel();
+        this.viewModel = ((MainActivity) getActivity()).getHomeScreenViewModel();
         View v = inflater.inflate(R.layout.home_screen_layout, container, false);
         ButterKnife.bind(this, v);
         return v;
@@ -47,6 +51,11 @@ public class HomeScreenFragment extends Fragment implements HomeScreenFragmentIn
         timerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         TimerRecyclerViewAdapter adapter = new TimerRecyclerViewAdapter(getContext(), viewModel.getTimerList(), this);
         timerRecyclerView.setAdapter(adapter);
+        newTimerObservable = viewModel.getTimerAdapterObservable();
+
+        newTimerObservable.doOnNext(x -> {
+            adapter.addItem(x);
+        });
 
         fab.setOnClickListener(v -> navigateToCreateNewTimerFragment());
     }

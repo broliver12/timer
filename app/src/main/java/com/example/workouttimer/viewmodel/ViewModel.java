@@ -4,16 +4,25 @@ import com.example.workouttimer.model.Section;
 import com.example.workouttimer.model.Timer;
 import java.util.ArrayList;
 
-public class ViewModel implements HomeScreenViewModelInterface {
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
+public class ViewModel implements HomeScreenViewModelInterface{
 
     private ArrayList<Timer> timerList;
 
     private TimerScreenViewModel timerScreenViewModel;
     private CreateNewTimerScreenViewModel createNewTimerScreenViewModel;
 
+    private Observable<Timer> newTimerObs;
+
     public ViewModel() {
         timerScreenViewModel = new TimerScreenViewModel();
         createNewTimerScreenViewModel = new CreateNewTimerScreenViewModel();
+
+        newTimerObs = createNewTimerScreenViewModel.getTimerPublishSubject();
+
+        newTimerObs.doOnNext(x -> timerList.add(x)).map(x -> x).subscribe();
 
         timerList = new ArrayList<>();
 
@@ -28,27 +37,16 @@ public class ViewModel implements HomeScreenViewModelInterface {
 
     }
 
+    public Observable<Timer> getTimerAdapterObservable(){
+        return createNewTimerScreenViewModel.getTimerPublishSubject();
+    }
+
     public TimerScreenViewModel getTimerScreenViewModel() {
         return timerScreenViewModel;
     }
 
     public CreateNewTimerScreenViewModel getCreateNewTimerScreenViewModel(){
         return createNewTimerScreenViewModel;
-    }
-
-    public ArrayList<Timer> getTimerList() {
-        return this.timerList;
-    }
-
-    public boolean addTimerToList(Timer timer) {
-        for (Timer t : timerList) {
-            if (t.getTitle().equals(timer.getTitle())) {
-                return false;
-            }
-        }
-
-        timerList.add(timer);
-        return true;
     }
 
     public boolean removeTimerFromList(String title) {
@@ -70,5 +68,24 @@ public class ViewModel implements HomeScreenViewModelInterface {
         }
         return false;
     }
+
+    public ArrayList<Timer> getTimerList() {
+        return this.timerList;
+    }
+
+
+    public boolean addTimerToList(Timer timer) {
+        for (Timer t : timerList) {
+            if (t.getTitle().equals(timer.getTitle())) {
+                return false;
+            }
+        }
+
+        timerList.add(timer);
+
+        return true;
+    }
+
+
 
 }

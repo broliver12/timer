@@ -75,6 +75,11 @@ public class TimerRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
+    public void addItem(Timer timer){
+        items.add(timer);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return items.size();

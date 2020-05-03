@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workouttimer.R;
+import com.example.workouttimer.activity.CustomOnDoneActionListener;
 import com.example.workouttimer.activity.MainActivity;
 import com.example.workouttimer.adapter.SectionRecyclerViewAdapter;
 import com.example.workouttimer.model.Section;
@@ -56,6 +59,9 @@ public class CreateNewTimerScreenFragment extends Fragment {
     @BindView(R.id.create_timer_section_recyclerview)
     RecyclerView recyclerView;
 
+    Button submitButton;
+    Button discardButton;
+
 
     private CreateNewTimerScreenViewModelInterface viewModel;
     private static String[] typeOptionsArray = {"Work", "Rest"};
@@ -72,16 +78,19 @@ public class CreateNewTimerScreenFragment extends Fragment {
 
         chooseDurationNumberPicker.setMaxValue(600);
         chooseDurationNumberPicker.setMinValue(1);
+        chooseSectionTypeNumberPicker.setMaxValue(1);
+        chooseSectionTypeNumberPicker.setMinValue(0);
         chooseSectionTypeNumberPicker.setDisplayedValues(typeOptionsArray);
-        chooseSectionTypeNumberPicker.setWrapSelectorWheel(false);
-        updateView(0);
         return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         toolbarSetup();
+
+        updateView(0);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new SectionRecyclerViewAdapter(getContext(), new ArrayList<>());
@@ -94,16 +103,41 @@ public class CreateNewTimerScreenFragment extends Fragment {
 
         addSectionButton.setOnClickListener(v -> {
             viewModel.onAddSectionPressed();
+            this.resetAddSectionLayout();
+            removeFocusAndHideKeyboard();
+        });
+
+        cancelAddSectionButton.setOnClickListener(v -> {
+            viewModel.onCancelPressed();
+            removeFocusAndHideKeyboard();
         });
 
         confirmAddSectionButton.setOnClickListener(v -> {
             viewModel.onAddPressed(chooseDurationNumberPicker.getValue(), sectionLabelEditText.getText().toString(), typeOptionsArray[chooseSectionTypeNumberPicker.getValue()]);
             adapter.addItem(chooseDurationNumberPicker.getValue(), sectionLabelEditText.getText().toString(), typeOptionsArray[chooseSectionTypeNumberPicker.getValue()]);
+            removeFocusAndHideKeyboard();
         });
 
-        cancelAddSectionButton.setOnClickListener(v -> {
-            viewModel.onCancelPressed();
-        });
+        titleEditText.setOnEditorActionListener(new CustomOnDoneActionListener());
+        sectionLabelEditText.setOnEditorActionListener(new CustomOnDoneActionListener());
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity) getActivity()).forceShowSoftKeyboard();
+    }
+
+    private void resetAddSectionLayout() {
+        sectionLabelEditText.setText("");
+        chooseDurationNumberPicker.setValue(1);
+        chooseSectionTypeNumberPicker.setValue(0);
+    }
+
+    private void removeFocusAndHideKeyboard(){
+        sectionModifiersLinearLayout.requestFocus();
+        ((MainActivity) getActivity()).hideSoftKeyboard();
     }
 
     private void toolbarSetup(){
@@ -111,7 +145,8 @@ public class CreateNewTimerScreenFragment extends Fragment {
         final Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.timer_screen_toolbar, null);
+        View v = inflater.inflate(R.layout.create_timer_screen_toolbar, null);
+
 
         if (actionBar != null) {
             actionBar.setDisplayShowCustomEnabled(true);
@@ -120,31 +155,42 @@ public class CreateNewTimerScreenFragment extends Fragment {
             actionBar.setCustomView(v);
             toolbar.setNavigationIcon(null);
 
-            v.findViewById(R.id.back).setOnClickListener(v_ -> getActivity().onBackPressed());
+            submitButton = v.findViewById(R.id.confirm_add_timer_button);
+            submitButton.setOnClickListener(v_ -> {
+                viewModel.onSavePressed(titleEditText.getText().toString());
+                removeFocusAndHideKeyboard();
+                getActivity().onBackPressed();
+            });
+
+            discardButton = v.findViewById(R.id.discard_timer_button);
+            discardButton.setOnClickListener(v_ -> {
+                viewModel.onDiscardPressed();
+                removeFocusAndHideKeyboard();
+                getActivity().onBackPressed();
+            });
         }
     }
+
 
     private void updateView(int state){
         switch (state) {
             case 0:
-                sectionModifiersLinearLayout.setVisibility(View.INVISIBLE);
+                sectionModifiersLinearLayout.setVisibility(View.GONE);
+                submitButton.setVisibility(View.INVISIBLE);
+                addSectionButton.setVisibility(View.VISIBLE);
                 break;
 
             case 1:
                 sectionModifiersLinearLayout.setVisibility(View.VISIBLE);
+                submitButton.setVisibility(View.INVISIBLE);
+                addSectionButton.setVisibility(View.GONE);
                 break;
 
             case 2:
-                sectionModifiersLinearLayout.setVisibility(View.INVISIBLE);
+                sectionModifiersLinearLayout.setVisibility(View.GONE);
+                submitButton.setVisibility(View.VISIBLE);
+                addSectionButton.setVisibility(View.VISIBLE);
                 break;
-
-//            case 3:
-//
-//                break;
-//
-//            case 4:
-//
-//                break;
 
             default:
         }

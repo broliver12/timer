@@ -21,7 +21,9 @@
         <EditText
             android:id="@+id/title_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:imeOptions="actionDone"/>
 
         <Button
             android:id="@+id/add_section_button"
@@ -36,6 +38,7 @@
             android:id="@+id/section_modifiers_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <LinearLayout
@@ -84,7 +87,9 @@
                     android:id="@+id/section_label_edit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5" />
+                    android:layout_weight="5"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"/>
 
             </LinearLayout>
 
